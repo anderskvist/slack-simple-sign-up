@@ -10,6 +10,11 @@ if (!is_writable($dbfile)) {
   exit;
 }
 
+if (!is_writable(dirname($dbfile))) {
+  echo "Database directory is not writable!";
+  exit;
+}
+
 $db = new PDO('sqlite:' . $dbfile);
 $db->setAttribute(PDO::ATTR_ERRMODE, 
 		  PDO::ERRMODE_EXCEPTION);
