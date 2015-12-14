@@ -54,7 +54,24 @@ function dbListEvents($db) {
 
 function dbAttendEvent($db, $event_name, $attendee_name, $attendee_number = 1, $attendee_text = NULL) {
 
-  $event_id = 1;
+  $now = time();
+
+  $select = 'SELECT id FROM events WHERE event_name = :event_name AND event_time > :now AND event_rsvp > :now';
+
+  $stmt = $db->prepare($select);
+
+  $stmt->bindParam(':event_name', $event_name);
+  $stmt->bindParam(':now', $now);
+
+  $stmt->execute();
+  $result = $stmt->fetchAll();
+
+  if (count($result) != 1) {
+    echo "Hmm, noway looser!";
+    exit;
+  }
+
+  $event_id = $result[0]['id'];
 
   $insert = "INSERT INTO attendees (event_id, attendee_name, attendee_num, attendee_text) 
                 VALUES (:event_id, :attendee_name, :attendee_num, :attendee_text)";
