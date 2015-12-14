@@ -1,14 +1,15 @@
 # slack-simple-sign-up
 A simple sign up slash command for Slack
 
-# Create an event
+# Functions
+## Create an event
 /signup create 2015-12-17 NameOfEvent [2015-12-16 [16:00]]
 
-# Signup for an event
+## Signup for an event
 /signup NameOfEvent 1 [message]
 
-# See status for an event
+## See status for an event
 /signup status NameOfEvent
 
 # Later
-# Cancel event (have to notify everyone)
+## Cancel event (have to notify everyone)
