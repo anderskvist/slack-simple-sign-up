@@ -1,9 +1,9 @@
 <?php
 
 $debug = FALSE;
-$logfile = 'debug.log';
+$logfile = 'log/debug.log';
 
-$dbfile = 'signup.db';
+$dbfile = 'db/signup.db';
 
 if ($debug) {
   error_reporting(E_ALL);

@@ -1,2 +1,2 @@
-debug.log
-signup.db
+db/signup.db
+log/debug.log
