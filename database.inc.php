@@ -10,3 +10,9 @@ if (!is_writable($dbfile)) {
   exit;
 }
 
+$db = new PDO('sqlite:' . $dbfile);
+
+if (!$db) {
+  echo "Couldn't connect to database!";
+  exit
+}
