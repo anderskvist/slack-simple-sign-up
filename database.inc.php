@@ -44,10 +44,10 @@ function dbListEvents($db) {
 
   foreach ($result as $r) {
 
-    echo '*' . $r['event_name'] . '* @ *' . date('Y-m-d H:i',$r['event_time']) . '* by *' . $r['event_owner'] . '*';
+    echo '*' . $r['event_name'] . '* @ *' . my_date($r['event_time']) . '* by *' . $r['event_owner'] . '*';
 
     if ($r['event_rsvp'] != NULL) {
-      echo ' (RSVP: ' . date('Y-m-d H:i',$r['event_rsvp']) . ')';
+      echo ' (RSVP: ' . my_date($r['event_rsvp']) . ')';
     }
 
     echo "\n\n";

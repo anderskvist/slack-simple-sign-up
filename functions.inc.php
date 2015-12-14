@@ -12,3 +12,7 @@ function datetime_to_unix ($datetime) {
 		       );
     return $ts;
 }
+
+function my_date($ts) {
+  return date('Y-m-d H:i', $ts);
+}
