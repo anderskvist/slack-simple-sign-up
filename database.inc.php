@@ -52,7 +52,10 @@ function dbListEvents($db) {
   }
 }
 
-function dbAttendEvent($db, $event_name, $attendee_name, $attendee_number = 1, $attendee_text = NULL) {
+function dbAttendEvent($db, $event_name, $attendee_name, $attendee_num, $attendee_text = NULL) {
+
+  if ($attendee_num === NULL)
+    $attendee_num = 1;
 
   $now = time();
 
