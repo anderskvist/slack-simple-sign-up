@@ -1,18 +1,10 @@
 <?php
 
+include_once('secrets.inc.php');
 include_once('config.inc.php');
 include_once('functions.inc.php');
 include_once('debug.inc.php');
 include_once('database.inc.php');
-
-/* Don't know if theese are necessary */
-if ( 
-    $_POST['token'] != 'iNINUuO1Xhu9Me0OunaZbL7g' ||
-    $_POST['team_id'] != 'T04LP1S7R' ||
-    $_POST['team_domain'] != 'hal9k' ||
-    $_POST['channel_id'] != 'C0GJNBHV5' ||
-    $_POST['channel_name'] != 'sandbox'
-     ) exit;
 
 $user_id = $_POST['user_id'];
 $user_name = $_POST['user_name'];
