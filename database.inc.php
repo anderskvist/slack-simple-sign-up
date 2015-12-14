@@ -85,3 +85,25 @@ function dbAttendEvent($db, $event_name, $attendee_name, $attendee_number = 1, $
   
   return $stmt->execute();
 }
+
+function dbEventStatus($db, $event_name) {
+  echo "*List of attendees for " . $event_name . " :*\n\n";
+
+  $now = time();
+
+  $select = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name = :event_name AND events.id = attendees.event_id AND event_time > :now';
+
+  $stmt = $db->prepare($select);
+
+  $stmt->bindParam(':event_name', $event_name);
+  $stmt->bindParam(':now', $now);
+
+  $stmt->execute();
+  $result = $stmt->fetchAll();
+
+  foreach ($result as $r) {
+
+    echo '*' . $r['attendee_name'] . '* (*' . $r['attendee_num'] . '*) ' . $r['attendee_text'];
+    echo "\n\n";
+  }
+}
