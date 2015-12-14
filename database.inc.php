@@ -35,3 +35,21 @@ function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp
 
   return true;
 }
+
+function dbListEvents($db) {
+
+  echo "*List of currently open events:*\n\n";
+
+  $result = $db->query('SELECT * FROM events ORDER BY `event_time` ASC');
+
+  foreach ($result as $r) {
+
+    echo '*' . $r['event_name'] . '* @ *' . date('Y-m-d H:i',$r['event_time']) . '* by *' . $r['event_owner'] . '*';
+
+    if ($r['event_rsvp'] != NULL) {
+      echo ' (RSVP: ' . date('Y-m-d H:i',$r['event_rsvp']) . ')';
+    }
+
+    echo "\n\n";
+  }
+}
