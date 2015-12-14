@@ -31,9 +31,7 @@ function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp
   $stmt->bindParam(':event_time', $event_time);
   $stmt->bindParam(':event_rsvp', $event_rsvp);
 
-  $stmt->execute();
-
-  return true;
+  return $stmt->execute();
 }
 
 function dbListEvents($db) {
