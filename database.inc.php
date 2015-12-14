@@ -19,11 +19,6 @@ $db = new PDO('sqlite:' . $dbfile);
 $db->setAttribute(PDO::ATTR_ERRMODE, 
 		  PDO::ERRMODE_EXCEPTION);
 
-if (!$db) {
-  echo "Couldn't connect to database!";
-  exit;
-}
-
 function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp = NULL) {
 
   $insert = "INSERT INTO events (event_name, event_owner, event_time, event_rsvp) 
