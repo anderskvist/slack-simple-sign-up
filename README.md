@@ -12,4 +12,5 @@ A simple sign up slash command for Slack
 /signup status NameOfEvent
 
 # Later
+## List events
 ## Cancel event (have to notify everyone)
