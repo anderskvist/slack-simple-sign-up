@@ -11,12 +11,27 @@ if (!is_writable($dbfile)) {
 }
 
 $db = new PDO('sqlite:' . $dbfile);
+$db->setAttribute(PDO::ATTR_ERRMODE, 
+		  PDO::ERRMODE_EXCEPTION);
 
 if (!$db) {
   echo "Couldn't connect to database!";
   exit;
 }
 
-function dbCreateEvent ($db, $user_name, $event_name, $date, $rsvp = NULL) {
+function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp = NULL) {
+
+  $insert = "INSERT INTO events (event_name, event_owner, event_time, event_rvsp) 
+                VALUES (:event_name, :event_owner, :event_time, :event_rvsp)";
+
+  $stmt = $db->prepare($insert);
+
+  $stmt->bindParam(':event_name', $event_name);
+  $stmt->bindParam(':event_owner', $event_owner);
+  $stmt->bindParam(':event_time', $event_time);
+  $stmt->bindParam(':event_rvsp', $event_rvsp);
+
+  $stmt->execute();
+
   return true;
 }
