@@ -51,3 +51,20 @@ function dbListEvents($db) {
     echo "\n\n";
   }
 }
+
+function dbAttendEvent($db, $event_name, $attendee_name, $attendee_number = 1, $attendee_text = NULL) {
+
+  $event_id = 1;
+
+  $insert = "INSERT INTO attendees (event_id, attendee_name, attendee_num, attendee_text) 
+                VALUES (:event_id, :attendee_name, :attendee_num, :attendee_text)";
+  
+  $stmt = $db->prepare($insert);
+  
+  $stmt->bindParam(':event_id', $event_id);
+  $stmt->bindParam(':attendee_name', $attendee_name);
+  $stmt->bindParam(':attendee_num', $attendee_num);
+  $stmt->bindParam(':attendee_text', $attendee_text);
+  
+  return $stmt->execute();
+}
