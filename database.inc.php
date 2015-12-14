@@ -21,15 +21,15 @@ if (!$db) {
 
 function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp = NULL) {
 
-  $insert = "INSERT INTO events (event_name, event_owner, event_time, event_rvsp) 
-                VALUES (:event_name, :event_owner, :event_time, :event_rvsp)";
+  $insert = "INSERT INTO events (event_name, event_owner, event_time, event_rsvp) 
+                VALUES (:event_name, :event_owner, :event_time, :event_rsvp)";
 
   $stmt = $db->prepare($insert);
 
   $stmt->bindParam(':event_name', $event_name);
   $stmt->bindParam(':event_owner', $event_owner);
   $stmt->bindParam(':event_time', $event_time);
-  $stmt->bindParam(':event_rvsp', $event_rvsp);
+  $stmt->bindParam(':event_rsvp', $event_rsvp);
 
   $stmt->execute();
 
