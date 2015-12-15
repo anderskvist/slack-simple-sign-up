@@ -38,11 +38,10 @@ function dbListEvents($db) {
 
   echo "*List of currently open events:*\n\n";
 
-  $result = $db->query('SELECT * FROM events ORDER BY `event_time` ASC');
+  $result = $db->query('SELECT events.*, IFNULL(SUM(attendees.attendee_num),0) AS attendee_num FROM events LEFT JOIN attendees ON events.id = attendees.event_id GROUP BY events.id ORDER BY `event_time` ASC');
 
   foreach ($result as $r) {
-
-    echo '*' . $r['event_name'] . '* @ *' . my_date($r['event_time']) . '* by *' . $r['event_owner'] . '*';
+    echo '*' . $r['event_name'] . '* @ *' . my_date($r['event_time']) . '* by *' . $r['event_owner'] . '* (*' . $r['attendee_num'] . '*)';
 
     if ($r['event_rsvp'] != NULL) {
       echo ' (RSVP: ' . my_date($r['event_rsvp']) . ')';
