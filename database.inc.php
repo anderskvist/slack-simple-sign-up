@@ -104,9 +104,12 @@ function dbEventStatus($db, $event_name) {
   $stmt->execute();
   $result = $stmt->fetchAll();
 
+  $total = 0;
   foreach ($result as $r) {
-
     echo '*' . $r['attendee_name'] . '* (*' . $r['attendee_num'] . '*) ' . $r['attendee_text'];
     echo "\n\n";
+
+    $total += $r['attendee_num'];
   }
+  echo 'Total attendees: *' . $total . '*' . "\n\n";
 }
