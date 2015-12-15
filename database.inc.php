@@ -58,7 +58,7 @@ function dbAttendEvent($db, $event_name, $attendee_name, $attendee_num, $attende
 
   $now = time();
 
-  $select = 'SELECT id FROM events WHERE event_name = :event_name AND event_time > :now AND (event_rsvp > :now OR event_rsvp IS NULL)';
+  $select = 'SELECT id FROM events WHERE event_name LIKE :event_name AND event_time > :now AND (event_rsvp > :now OR event_rsvp IS NULL)';
 
   $stmt = $db->prepare($select);
 
@@ -93,7 +93,7 @@ function dbEventStatus($db, $event_name) {
 
   $now = time();
 
-  $select = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name = :event_name AND events.id = attendees.event_id AND event_time > :now ORDER BY attendees.id ASC';
+  $select = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name LIKE :event_name AND events.id = attendees.event_id AND event_time > :now ORDER BY attendees.id ASC';
 
   $stmt = $db->prepare($select);
 
