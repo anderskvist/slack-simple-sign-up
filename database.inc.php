@@ -59,7 +59,7 @@ function dbAttendEvent($db, $event_name, $attendee_name, $attendee_num, $attende
 
   $now = time();
 
-  $select = 'SELECT id FROM events WHERE event_name = :event_name AND event_time > :now AND event_rsvp > :now';
+  $select = 'SELECT id FROM events WHERE event_name = :event_name AND event_time > :now AND (event_rsvp > :now OR event_rsvp IS NULL)';
 
   $stmt = $db->prepare($select);
 
