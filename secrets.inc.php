@@ -1,7 +1,7 @@
 <?php
 
-$token = 'SECRET';
-$team_id = 'SECRET';
+$token = 'lTPdnQl6ghlrG9yGq87z1xzw';
+$team_id = 'T04LP1S7R';
 
 if ( 
     $_POST['token'] != $token ||
