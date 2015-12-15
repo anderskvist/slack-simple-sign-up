@@ -94,7 +94,7 @@ function dbEventStatus($db, $event_name) {
 
   $now = time();
 
-  $select = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name = :event_name AND events.id = attendees.event_id AND event_time > :now';
+  $select = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name = :event_name AND events.id = attendees.event_id AND event_time > :now ORDER BY attendees.id ASC';
 
   $stmt = $db->prepare($select);
 
