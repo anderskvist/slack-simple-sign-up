@@ -3,14 +3,16 @@ A simple sign up slash command for Slack
 
 # Functions
 ## Create an event
-/signup create 2015-12-17 NameOfEvent [2015-12-16 [16:00]]
+/event create NameOfEvent 2015-12-17 19:00 [2015-12-16 16:00]
+
+## List events
+/event list
 
 ## Signup for an event
-/signup NameOfEvent 1 [message]
+/event attend NameOfEvent [1 [message]]
 
 ## See status for an event
-/signup status NameOfEvent
+/event status NameOfEvent
 
 # Later
-## List events
 ## Cancel event (have to notify everyone)
