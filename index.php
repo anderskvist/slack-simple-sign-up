@@ -72,7 +72,7 @@ case 'list':
 case 'help':
   echo '*List of commands*:' . "\n\n";
   echo '*' . $_POST['command'] . ' help* - this view' . "\n\n";
-  echo '*' . $_POST['command'] . ' create NameOfEvent YYYY-MM-DD HH:mm [YYYY-MM-DD]* - create an event (RSVP optional)' . "\n\n";
+  echo '*' . $_POST['command'] . ' create NameOfEvent YYYY-MM-DD HH:mm [YYYY-MM-DD HH:mm]* - create an event (RSVP optional)' . "\n\n";
   echo '*' . $_POST['command'] . ' attend NameOfEvent [NumberOfAttendees [Text]]* - attend an event (number of attendees and text are optional)' . "\n\n";
   echo '*' . $_POST['command'] . ' list* - list all open events' . "\n\n";
   echo '*' . $_POST['command'] . ' status NameOfEvent* - show status for an evvent' . "\n\n";
