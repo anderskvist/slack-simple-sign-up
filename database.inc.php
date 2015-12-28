@@ -76,7 +76,7 @@ function dbAttendEvent($db, $event_name, $attendee_name, $attendee_num, $attende
 
   $event_id = $result[0]['id'];
 
-  $insert = "INSERT INTO attendees (event_id, attendee_name, attendee_num, attendee_text) 
+  $insert = "REPLACE INTO attendees (event_id, attendee_name, attendee_num, attendee_text) 
                 VALUES (:event_id, :attendee_name, :attendee_num, :attendee_text)";
   
   $stmt = $db->prepare($insert);
