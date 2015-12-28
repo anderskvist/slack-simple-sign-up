@@ -10,7 +10,7 @@ $user_id = $_POST['user_id'];
 $user_name = $_POST['user_name'];
 $text = $_POST['text'];
 
-if (!preg_match('/^(create|list|attend|status|help)/i', $text, $matches)) {
+if (!preg_match('/^(create|list|attend|status|modify|help)/i', $text, $matches)) {
   echo "Unknown command, try again suckahr!";
   exit;
 }
@@ -20,7 +20,12 @@ $command = strtolower($matches[1]);
 switch ($command) {
 case 'create':
   $event_owner = $user_name;
-  if (preg_match('/^create ([\d\w]+) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2})$/i', $text, $matches)) {
+  if (preg_match('/^create ([\d\w]+) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}) (.*)$/i', $text, $matches)) {
+    $event_name = $matches[1];
+    $event_time = $matches[2];
+    $event_rvsp_time = $matches[3];
+    $event_note = $matches[4];
+  } else if (preg_match('/^create ([\d\w]+) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2})$/i', $text, $matches)) {
     $event_name = $matches[1];
     $event_time = $matches[2];
     $event_rvsp_time = $matches[3];
@@ -31,6 +36,8 @@ case 'create':
   } else {
     echo "error";
   }
+
+  var_dump($matches);
 
   $now = time();
   $event_ts = datetime_to_unix($event_time);
@@ -54,7 +61,7 @@ case 'create':
     }
   }
 
-  if (!dbCreateEvent($db, $event_name, $event_owner, $event_ts, $event_rvsp_ts)) {
+  if (!dbCreateEvent($db, $event_name, $event_owner, $event_ts, $event_rvsp_ts, $event_note)) {
     echo "Error creating event!";
     exit;
   } else {
@@ -116,6 +123,30 @@ case 'status':
     echo "Prick!";
   }
 
+  break;
+
+case 'modify':
+  $event_owner = $user_name;
+  $event_name = NULL;
+  $event_time = NULL;
+  $event_rsvp_time = NULL;
+  $event_note = NULL;
+  if (preg_match('/^modify ([\d\w]+) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}) (.*)$/i', $text, $matches)) {
+    $event_name = $matches[1];
+    $event_time = $matches[2];
+    $event_rsvp_time = $matches[3];
+    $event_note = $matches[4];
+  } else if (preg_match('/^create ([\d\w]+) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2})$/i', $text, $matches)) {
+    $event_name = $matches[1];
+    $event_time = $matches[2];
+    $event_rsvp_time = $matches[3];
+  } else if (preg_match('/^create ([\d\w]+) ([\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2})$/i', $text, $matches)) {
+    $event_name = $matches[1];
+    $event_time = $matches[2];
+  } else {
+    echo "Nothing to change!";
+  }
+  dbModifyEvent($db, $event_name, $event_owner, datetime_to_unix($event_time), datetime_to_unix($event_rsvp_time), $event_note);
   break;
 }
 

@@ -19,10 +19,10 @@ $db = new PDO('sqlite:' . $dbfile);
 $db->setAttribute(PDO::ATTR_ERRMODE, 
 		  PDO::ERRMODE_EXCEPTION);
 
-function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp = NULL) {
+function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp = NULL, $event_note = NULL) {
 
-  $insert = "INSERT INTO events (event_name, event_owner, event_time, event_rsvp) 
-                VALUES (:event_name, :event_owner, :event_time, :event_rsvp)";
+  $insert = "INSERT INTO events (event_name, event_owner, event_time, event_rsvp, event_note) 
+                VALUES (:event_name, :event_owner, :event_time, :event_rsvp, :event_note)";
 
   $stmt = $db->prepare($insert);
 
@@ -30,6 +30,7 @@ function dbCreateEvent ($db, $event_name, $event_owner, $event_time, $event_rsvp
   $stmt->bindParam(':event_owner', $event_owner);
   $stmt->bindParam(':event_time', $event_time);
   $stmt->bindParam(':event_rsvp', $event_rsvp);
+  $stmt->bindParam(':event_note', $event_note);
 
   return $stmt->execute();
 }
@@ -111,4 +112,47 @@ function dbEventStatus($db, $event_name) {
     $total += $r['attendee_num'];
   }
   echo "\n" . 'Total attendees: *' . $total . '*' . "\n\n";
+}
+
+function dbModifyEvent($db, $event_name, $event_owner, $event_time, $event_rsvp_time = NULL, $event_note = NULL) {
+
+
+  $select = 'SELECT SUM(attendee_num) as attendee_num FROM events,attendees WHERE events.event_name LIKE :event_name AND events.id = attendees.event_id AND event_time = :event_time';
+
+  $stmt = $db->prepare($select);
+
+  $stmt->bindParam(':event_name', $event_name);
+  $stmt->bindParam(':event_time', $event_time);
+
+  $stmt->execute();
+  $result = $stmt->fetch();
+
+  if ($result['attendee_num'] > 0) {
+    echo "You cannot change an event that already have attendees, dickhead!";
+    exit;
+  }
+
+
+  $stmt = $db->prepare('SELECT event_owner FROM events WHERE event_name = :event_name AND event_time = :event_time');
+  $stmt->bindParam(':event_name', $event_name);
+  $stmt->bindParam(':event_time', $event_time);
+  $stmt->execute();
+  $result = $stmt->fetch();
+
+  if ($result['event_owner'] != $event_owner) {
+    echo "You cannot change an event that isn't yours - cheater!";
+    exit;
+  }
+
+  $query = 'UPDATE events SET event_rsvp = :event_rsvp, event_note = :event_note WHERE event_name LIKE :event_name AND event_time = :event_time';
+
+  $stmt = $db->prepare($query);
+
+  $stmt->bindParam(':event_rsvp', $event_rsvp_time);
+  $stmt->bindParam(':event_note', $event_note);
+  $stmt->bindParam(':event_name', $event_name);
+  $stmt->bindParam(':event_time', $event_time);
+
+  return $stmt->execute();
+  
 }

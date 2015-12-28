@@ -7,6 +7,7 @@ CREATE TABLE events (
        );
 
 CREATE UNIQUE INDEX event ON events (event_name, event_owner, event_time);
+ALTER TABLE events ADD COLUMN event_note TEXT;
 
 CREATE TABLE attendees (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
