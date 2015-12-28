@@ -48,6 +48,10 @@ function dbListEvents($db) {
       echo ' (RSVP: ' . my_date($r['event_rsvp']) . ')';
     }
 
+    if ($r['event_note'] != NULL) {
+      echo ' ' . $r['event_note'];
+    }
+
     echo "\n\n";
   }
 }
