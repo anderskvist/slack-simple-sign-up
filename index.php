@@ -37,8 +37,6 @@ case 'create':
     echo "error";
   }
 
-  var_dump($matches);
-
   $now = time();
   $event_ts = datetime_to_unix($event_time);
 
