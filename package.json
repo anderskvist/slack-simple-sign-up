@@ -11,7 +11,8 @@
   "license": "GPLv3",
   "dependencies": {
     "sqlite3": "*",
-    "express": "*"
+    "express": "*",
+    "body-parser": "*"
   }
 }
 
