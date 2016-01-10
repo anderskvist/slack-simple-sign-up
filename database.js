@@ -5,13 +5,11 @@ function Database() {
     this.db = new sqlite3.Database('db/signup.db');
 }
 
-method.listEvents = function () {
-    console.log(this.db);
-
+method.listEvents = function (res) {
     var query = 'SELECT events.*, IFNULL(SUM(attendees.attendee_num),0) AS attendee_num FROM events LEFT JOIN attendees ON events.id = attendees.event_id GROUP BY events.id ORDER BY `event_time` ASC';
-    
+
     this.db.each(query, function(err, row) {
-	
+
 	var output = '*' + row['event_name'] + '* @ *' + row['event_time'] + '* by *' + row['event_owner'] + '* (*' + row['attendee_num'] + '*)';
 	
 	if (row['event_rsvp'] != null) {
@@ -21,9 +19,16 @@ method.listEvents = function () {
 	if (row['event_note'] != null) {
 	    output +=  ' ' + row['event_note'];
 	}
+	
+	if (this.lines == undefined) {
+	    this.lines = "";
+	}
 
-	console.log(output);
+	this.lines += output + "\n";
+    },function () {
+	res.send(this.lines);
     });
+
 }
 
 module.exports = Database;
