@@ -25,9 +25,11 @@ method.listEvents = function (res) {
 	}
 
 	this.lines += output + "\n";
-    },function () {
-       res.send(this.lines);
-    });
+
+	},function () {
+	    res.send(this.lines);
+	});
+}
 
 method.eventStatus = function (res, event_name) {
     var query = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name LIKE ? AND events.id = attendees.event_id ORDER BY attendees.id ASC';
