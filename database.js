@@ -26,9 +26,32 @@ method.listEvents = function (res) {
 
 	this.lines += output + "\n";
     },function () {
-	res.send(this.lines);
+       res.send(this.lines);
     });
 
+method.eventStatus = function (res, event_name) {
+    var query = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name LIKE ? AND events.id = attendees.event_id ORDER BY attendees.id ASC';
+
+    this.db.each(query, event_name, function(err, row, output) {
+	    if (this.output == undefined) {
+		this.output = "*List of attendees for " + event_name + " :*\n\n";
+	    }
+
+	    this.output += '*' + row.attendee_name + '* (*' + row.attendee_num + '*) ' + row.attendee_text + "\n";
+	    if (this.total == undefined) {
+		this.total = 0;
+	    }
+
+	    this.total += parseInt(row.attendee_num);
+	    
+	},function () {
+	    if (this.output) {
+		this.output += "\n" + 'Total attendees: *' + this.total + '*' + "\n\n";
+		res.send(this.output);
+	    } else {
+		res.send("Event " + event_name + " doesn't exist.");
+	    }
+	});
 }
 
 module.exports = Database;
