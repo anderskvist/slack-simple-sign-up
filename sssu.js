@@ -20,7 +20,7 @@ app.post('/', function(req, res){
 	var strargv = require("string-argv");
 	var args = strargv.parseArgsStringToArgv(req.body.text);
 
-	console.log(req.body);
+	console.log(req.body + "\n");
 
 	yargs.reset()
 	    .exitProcess(false)
