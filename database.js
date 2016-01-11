@@ -56,4 +56,22 @@ method.eventStatus = function (res, event_name) {
 	});
 }
 
+method.createEvent = function (res, event_name, event_owner, event_date, event_rsvp, event_note) {
+    console.log(event_name);
+    console.log(event_date);
+    console.log(event_rsvp);
+    console.log(event_note);
+
+    var query = 'INSERT INTO events (event_name, event_owner, event_time, event_rsvp, event_note) VALUES (:event_name, :event_owner, :event_time, :event_rsvp, :event_note)';
+
+    var test = this.db.run(query, event_name, event_owner, event_date, event_rsvp, event_note, function(err) {
+	    if (err) {
+		res.send("Error!");
+		console.log(err);
+	    } else {
+		res.send("Success!");
+	    }
+	});
+}
+
 module.exports = Database;

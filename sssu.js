@@ -101,7 +101,7 @@ app.post('/', function(req, res){
 	    var argv = yargs.parse(args);
 
 	    if (argv.name && argv.date) {
-		res.send("Work in progress...");
+		database.createEvent(res, argv.name, req.body.user_name, argv.date, argv.rsvp, argv.note);
 	    } else {
 		res.send("*Prick!*\n" + yargs.help());
 	    }
