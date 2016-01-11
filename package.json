@@ -12,7 +12,9 @@
   "dependencies": {
     "sqlite3": "*",
     "express": "*",
-    "body-parser": "*"
+    "body-parser": "*",
+    "yargs": "*",
+    "string-argv": "*"
   }
 }
 
