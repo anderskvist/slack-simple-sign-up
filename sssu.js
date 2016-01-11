@@ -20,36 +20,99 @@ app.post('/', function(req, res){
 	var strargv = require("string-argv");
 	var args = strargv.parseArgsStringToArgv(req.body.text);
 
+	console.log(req.body);
 
 	yargs.reset()
 	    .exitProcess(false)
-	    .usage( "Usage: $0 command")
-	    .command( "attend", "Attend an event")
-	    .command( "create", "Create an event")
+	    .option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
+	    .fail(function() {})
+	    .usage("Usage: " + req.body.command + ' command')
+	    .command( "attend", "* Attend an event")
+	    .command( "create", "* Create an event")
 	    .command( "help", "Show this")
 	    .command( "list", "List all open events")
-	    .command( "status", "Status of an event")
-	    .required( 1, "command is required" )
-	    .parse(args);
+	    .command( "status", "Status of an event");
 
-	var command = args[0];
+	var argv = yargs.parse(args);
+	var command = argv._;
+	
+	if (command == '') {
 
-	if (command == "help") {
+	    /* HELP */
 	    res.send(yargs.help());
+
+
+	}  else if (command == "help") {
+
+	    /* HELP */
+	    res.send(yargs.help());
+
+
 	} else if (command == "list") {
-	    database.listEvents(res);
-	} else if (command == "create") {
+
+	    /* LIST */
 	    yargs.reset()
-		.usage(req.body.command + ' create --name "Name of the event" --date "2016-01-01 18:00" --rsvp "2016-01-01 17:00" --note "Some not about this event."')
-		.help('h')
-		.option('name', {alias: 'n', describe: 'Name of the event'})
-		.option('date', {alias: 'd', describe: 'Date and time of the event'})
-		.option('rsvp', {alias: 'r', describe: 'RSVP date and time of the event'})
-		.option('note', {alias: 'r', describe: 'Note for the event'})
-		.parse(args);
-	    res.send("create" + yargs.help());
+		.exitProcess(false)
+		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
+		.fail(function() {})
+		.usage("Usage: " + req.body.command + ' list');
+
+	    var argv = yargs.parse(args);
+	    
+	    if (argv.help) {
+		res.send("*Prick!*\n" + yargs.help());
+	    } else {
+		database.listEvents(res);
+	    }
+
+
+	} else if (command == "status") {
+
+	    /* STATUS */
+	    yargs.reset()
+		.exitProcess(false)
+		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
+		.fail(function() {})
+		.usage("Usage: " + req.body.command + ' status --name "Name of Event"')
+		.option('n', {alias: 'name', describe: 'Name of the event', demand: true});
+
+	    var argv = yargs.parse(args);
+
+	    if (argv.name) {
+		database.eventStatus(res, argv.name);
+	    } else {
+		res.send("*Prick!*\n" + yargs.help());
+	    }
+
+
+	} else if (command == "create") {
+
+	    /* CREATE */
+	    yargs.reset()
+		.exitProcess(false)
+		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
+		.fail(function() {})
+		.usage(req.body.command + ' create --name "Name of the event" --date "2016-01-01 18:00" --rsvp "2016-01-01 17:00" --note "Some note about this event."')
+		.option('n', {alias: 'name', describe: 'Name of the event', demand: true})
+		.option('d', {alias: 'date', describe: 'Date and time of the event', demand: true})
+		.option('r', {alias: 'rsvp', describe: 'RSVP date and time of the event'})
+		.option('o', {alias: 'note', describe: 'Note for the event'});
+
+	    var argv = yargs.parse(args);
+
+	    if (argv.name && argv.date) {
+		res.send("Work in progress...");
+	    } else {
+		res.send("*Prick!*\n" + yargs.help());
+	    }
+
+
 	} else {
+
+	    /* NOT IMPLEMENTED */
 	    res.send("Not implemented yet\n\n");
+
+
 	}
 });
 
