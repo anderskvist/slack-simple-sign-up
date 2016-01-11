@@ -108,6 +108,34 @@ app.post('/', function(req, res){
 	    }
 
 
+	} else if (command == "attend") {
+
+	    /* ATTEND */
+	    yargs.reset()
+		.exitProcess(false)
+		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
+		.fail(function() {})
+		.usage(req.body.command + ' attend --name "Name of the event" ')
+		.option('n', {alias: 'name', describe: 'Name of the event'})
+		.option('i', {alias: 'id', describe: 'Id of the event'})
+		.option('a', {alias: 'attendees', describe: 'Number of attendees'})
+		.default('a', 1)
+		.option('t', {alias: 'text', describe: 'Text'});
+
+	    var argv = yargs.parse(args);
+
+	    console.log(argv);
+	    if (argv.id) {
+		//database.attendEventId(res, argv.id, req.body.user_name, argv.attendees, argv.text);
+		res.send("Attend Event by Id");
+	    } else if (argv.name) {
+		//database.attendEventName(res, argv.name, req.body.user_name, argv.attendees, argv.text);
+		res.send("Attend Event by Name");
+	    } else {
+		res.send("*Prick!*\n" + yargs.help());
+	    }
+
+
 	} else {
 
 	    /* NOT IMPLEMENTED */
