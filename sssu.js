@@ -125,12 +125,8 @@ app.post('/', function(req, res){
 	    var argv = yargs.parse(args);
 
 	    console.log(argv);
-	    if (argv.id) {
-		//database.attendEventId(res, argv.id, req.body.user_name, argv.attendees, argv.text);
-		res.send("Attend Event by Id");
-	    } else if (argv.name) {
-		//database.attendEventName(res, argv.name, req.body.user_name, argv.attendees, argv.text);
-		res.send("Attend Event by Name");
+	    if (argv.id || argv.name) {
+		database.attendEvent(res, argv.id, argv.name, req.body.user_name, argv.attendees, argv.text);
 	    } else {
 		res.send("*Prick!*\n" + yargs.help());
 	    }
