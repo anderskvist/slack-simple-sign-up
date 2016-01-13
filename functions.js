@@ -11,3 +11,7 @@ global.unixtime_to_datetime = function (unixtime) {
 
     return formattedTime;
 }
+
+global.insult = function () {
+    return "Fucker";
+}
