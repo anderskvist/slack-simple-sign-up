@@ -39,7 +39,7 @@ method.eventStatus = function (res, event_id) {
 		this.output = "*List of attendees for " + row.event_name + " :*\n\n";
 	    }
 
-	    this.output += '*' + row.attendee_name + '* (*' + row.attendee_num + '*) ' + row.attendee_text + "\n";
+	    this.output += '*' + row.attendee_name + '* (*' + row.attendee_num + '*) ' + (row.attendee_text ? row.attendee_text : "") + "\n";
 	    if (this.total == undefined) {
 		this.total = 0;
 	    }
