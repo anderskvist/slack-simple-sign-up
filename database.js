@@ -9,23 +9,23 @@ method.listEvents = function (res) {
     var query = 'SELECT events.*, IFNULL(SUM(attendees.attendee_num),0) AS attendee_num FROM events LEFT JOIN attendees ON events.id = attendees.event_id GROUP BY events.id ORDER BY `event_time` ASC';
 
     this.db.each(query, function(err, row) {
-
-	    var output = '*' + row['event_name'] + '* @ *' + unixtime_to_datetime(row['event_time']) + '* by *' + row['event_owner'] + '* (*' + row['attendee_num'] + '*)';
+	    
+	    var output = '*' + row['event_name'] + '* @ *' + row['event_time'] + '* by *' + row['event_owner'] + '* (*' + row['attendee_num'] + '*)';
 	
-	if (row['event_rsvp'] != null) {
-	    output += ' (RSVP: ' + unixtime_to_datetime(row['event_rsvp']) + ')';
-	}
-	
-	if (row['event_note'] != null) {
-	    output +=  ' ' + row['event_note'];
-	}
-	
-	if (this.lines == undefined) {
-	    this.lines = "";
-	}
-
-	this.lines += output + "\n";
-
+	    if (row['event_rsvp'] != null) {
+		output += ' (RSVP: ' + row['event_rsvp'] + ')';
+	    }
+	    
+	    if (row['event_note'] != null) {
+		output +=  ' ' + row['event_note'];
+	    }
+	    
+	    if (this.lines == undefined) {
+		this.lines = "";
+	    }
+	    
+	    this.lines += output + "\n";
+	    
 	},function () {
 	    res.send(this.lines);
 	});
