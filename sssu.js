@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-//require("./database.js");
+require("./functions.js");
 
 var http = require("http");
 var Database = require("./database.js");
