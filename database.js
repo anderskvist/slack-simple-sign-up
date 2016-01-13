@@ -6,7 +6,7 @@ function Database() {
 }
 
 method.listEvents = function (res) {
-    var query = 'SELECT events.*, IFNULL(SUM(attendees.attendee_num),0) AS attendee_num FROM events LEFT JOIN attendees ON events.id = attendees.event_id GROUP BY events.id ORDER BY `event_time` ASC';
+    var query = 'SELECT events.*, IFNULL(SUM(attendees.attendee_num),0) AS attendee_num FROM events LEFT JOIN attendees ON events.id = attendees.event_id WHERE events.event_archived = 0 GROUP BY events.id ORDER BY `event_time` ASC';
 
     this.db.each(query, function(err, row) {
 	    
@@ -89,6 +89,25 @@ method.attendEvent = function (res, event_id, attendee_name, attendee_num, atten
 
     var query = 'REPLACE INTO attendees (event_id, attendee_name, attendee_num, attendee_text) VALUES (:event_id, :attendee_name, :attendee_num, :attendee_text)';
     var test = this.db.run(query, event_id, attendee_name, attendee_num, attendee_text, function(err) {
+	    if (err) {
+		res.send("Error!");
+		console.log(err);
+	    } else {
+		res.send("Success!");
+	    }
+	});
+}
+
+method.archiveEvent = function (res, event_id, event_owner, event_unarchive) {
+    if (event_unarchive) {
+	var query = 'UPDATE events SET event_archived = 0 WHERE id = :event_id AND event_owner = :event_owner';
+    } else {
+	var query = 'UPDATE events SET event_archived = 1 WHERE id = :event_id AND event_owner = :event_owner';
+    }
+
+    console.log(event_owner);
+
+    var test = this.db.run(query, event_id, event_owner, function(err) {
 	    if (err) {
 		res.send("Error!");
 		console.log(err);

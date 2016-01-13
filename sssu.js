@@ -28,6 +28,7 @@ app.post('/', function(req, res){
 	    .option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
 	    .fail(function() {})
 	    .usage("Usage: " + req.body.command + ' command')
+	    .command( "archive", "* Archive an event")
 	    .command( "attend", "* Attend an event")
 	    .command( "create", "* Create an event")
 	    .command( "help", "Show this")
@@ -126,6 +127,27 @@ app.post('/', function(req, res){
 	    console.log(argv);
 	    if (argv.id) {
 		database.attendEvent(res, argv.id, req.body.user_name, argv.attendees, argv.text);
+	    } else {
+		res.send("*Prick!*\n" + yargs.help());
+	    }
+
+
+	} else if (command == "archive") {
+
+	    /* ARCHIVE */
+	    yargs.reset()
+		.exitProcess(false)
+		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
+		.fail(function() {})
+		.usage(req.body.command + ' archive --id "event id" ')
+		.option('i', {alias: 'id', describe: 'Id of the event'})
+		.option('u', {alias: 'unarchive', describe: 'Unarchive an event', type: 'boolean'})
+
+	    var argv = yargs.parse(args);
+
+	    console.log(argv);
+	    if (argv.id) {
+		database.archiveEvent(res, argv.id, req.body.user_name, argv.unarchive);
 	    } else {
 		res.send("*Prick!*\n" + yargs.help());
 	    }

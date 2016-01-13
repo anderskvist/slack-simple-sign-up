@@ -8,6 +8,7 @@ CREATE TABLE events (
 
 CREATE UNIQUE INDEX event ON events (event_name, event_owner, event_time);
 ALTER TABLE events ADD COLUMN event_note TEXT;
+ALTER TABLE events ADD COLUMN event_archived BOOLEAN DEFAULT 0;
 
 CREATE TABLE attendees (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
