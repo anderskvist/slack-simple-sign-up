@@ -10,10 +10,10 @@ method.listEvents = function (res) {
 
     this.db.each(query, function(err, row) {
 	    
-	    var output = '*' + row['event_name'] + '* @ *' + row['event_time'] + '* by *' + row['event_owner'] + '* (*' + row['attendee_num'] + '*)';
+	    var output = '*' + row['event_name'] + '* @ *' + unixtime_to_datetime(row['event_time']) + '* by *' + row['event_owner'] + '* (*' + row['attendee_num'] + '*)';
 	
 	    if (row['event_rsvp'] != null) {
-		output += ' (RSVP: ' + row['event_rsvp'] + ')';
+		output += ' (RSVP: ' + unixtime_to_datetime(row['event_rsvp']) + ')';
 	    }
 	    
 	    if (row['event_note'] != null) {
