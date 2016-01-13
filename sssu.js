@@ -115,8 +115,7 @@ app.post('/', function(req, res){
 		.exitProcess(false)
 		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
 		.fail(function() {})
-		.usage(req.body.command + ' attend --name "Name of the event" ')
-		.option('n', {alias: 'name', describe: 'Name of the event'})
+		.usage(req.body.command + ' attend --id "event id" ')
 		.option('i', {alias: 'id', describe: 'Id of the event'})
 		.option('a', {alias: 'attendees', describe: 'Number of attendees'})
 		.default('a', 1)
@@ -125,8 +124,8 @@ app.post('/', function(req, res){
 	    var argv = yargs.parse(args);
 
 	    console.log(argv);
-	    if (argv.id || argv.name) {
-		database.attendEvent(res, argv.id, argv.name, req.body.user_name, argv.attendees, argv.text);
+	    if (argv.id) {
+		database.attendEvent(res, argv.id, req.body.user_name, argv.attendees, argv.text);
 	    } else {
 		res.send("*Prick!*\n" + yargs.help());
 	    }

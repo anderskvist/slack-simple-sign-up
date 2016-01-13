@@ -10,7 +10,7 @@ method.listEvents = function (res) {
 
     this.db.each(query, function(err, row) {
 	    
-	    var output = '*' + row['event_name'] + '* @ *' + unixtime_to_datetime(row['event_time']) + '* by *' + row['event_owner'] + '* (*' + row['attendee_num'] + '*)';
+	    var output = '*' + row['event_name'] + '* *(' + row['id'] + ')* @ *' + unixtime_to_datetime(row['event_time']) + '* by *' + row['event_owner'] + '* (*' + row['attendee_num'] + '*)';
 	
 	    if (row['event_rsvp'] != null) {
 		output += ' (RSVP: ' + unixtime_to_datetime(row['event_rsvp']) + ')';
@@ -74,7 +74,7 @@ method.createEvent = function (res, event_name, event_owner, event_date, event_r
 	});
 }
 
-method.attendEvent = function (res, event_name, event_id, attendee_name, attendee_num, attendee_text) {
+method.attendEvent = function (res, event_id, attendee_name, attendee_num, attendee_text) {
     var now = Math.floor(new Date() / 1000);
     res.send("Not implemented yet!");
 }
