@@ -5,8 +5,8 @@ function Database() {
     this.db = new sqlite3.Database('db/signup.db');
 }
 
-method.listEvents = function (res) {
-    var query = 'SELECT events.*, IFNULL(SUM(attendees.attendee_num),0) AS attendee_num FROM events LEFT JOIN attendees ON events.id = attendees.event_id WHERE events.event_archived = 0 GROUP BY events.id ORDER BY `event_time` ASC';
+method.listEvents = function (res, show_archived) {
+    var query = 'SELECT events.*, IFNULL(SUM(attendees.attendee_num),0) AS attendee_num FROM events LEFT JOIN attendees ON events.id = attendees.event_id WHERE events.event_archived = ' + (show_archived ? 1 : 0) + ' GROUP BY events.id ORDER BY `event_time` ASC';
 
     this.db.each(query, function(err, row) {
 	    

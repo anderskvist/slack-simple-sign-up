@@ -57,14 +57,15 @@ app.post('/', function(req, res){
 		.exitProcess(false)
 		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
 		.fail(function() {})
-		.usage("Usage: " + req.body.command + ' list');
+		.usage("Usage: " + req.body.command + ' list')
+		.option('a', {alias: 'archived', describe: 'Show archived events', type: 'boolean'});
 
 	    var argv = yargs.parse(args);
 	    
 	    if (argv.help) {
 		res.send("*Prick!*\n" + yargs.help());
 	    } else {
-		database.listEvents(res);
+		database.listEvents(res, argv.archived);
 	    }
 
 
