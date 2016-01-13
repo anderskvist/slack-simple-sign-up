@@ -76,7 +76,26 @@ method.createEvent = function (res, event_name, event_owner, event_date, event_r
 
 method.attendEvent = function (res, event_id, attendee_name, attendee_num, attendee_text) {
     var now = Math.floor(new Date() / 1000);
-    res.send("Not implemented yet!");
+
+    var query = 'SELECT * FROM events WHERE id = :event_id AND event_rsvp > :now';
+    var test = this.db.get(query, event_id, now, function(err, row) {
+	    if (err) {
+		console.log("doesn't exist");
+	    } else {
+		console.log("exists");
+	    }
+	    // FIXME: use this information!!!
+	});
+
+    var query = 'REPLACE INTO attendees (event_id, attendee_name, attendee_num, attendee_text) VALUES (:event_id, :attendee_name, :attendee_num, :attendee_text)';
+    var test = this.db.run(query, event_id, attendee_name, attendee_num, attendee_text, function(err) {
+	    if (err) {
+		res.send("Error!");
+		console.log(err);
+	    } else {
+		res.send("Success!");
+	    }
+	});
 }
 
 module.exports = Database;
