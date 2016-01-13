@@ -74,13 +74,13 @@ app.post('/', function(req, res){
 		.exitProcess(false)
 		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
 		.fail(function() {})
-		.usage("Usage: " + req.body.command + ' status --name "Name of Event"')
-		.option('n', {alias: 'name', describe: 'Name of the event', demand: true});
+		.usage("Usage: " + req.body.command + ' status --name "id of Event"')
+		.option('n', {alias: 'id', describe: 'Id of the event', demand: true});
 
 	    var argv = yargs.parse(args);
 
-	    if (argv.name) {
-		database.eventStatus(res, argv.name);
+	    if (argv.id) {
+		database.eventStatus(res, argv.id);
 	    } else {
 		res.send("*Prick!*\n" + yargs.help());
 	    }

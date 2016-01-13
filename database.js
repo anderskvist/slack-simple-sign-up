@@ -31,12 +31,12 @@ method.listEvents = function (res) {
 	});
 }
 
-method.eventStatus = function (res, event_name) {
-    var query = 'SELECT attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.event_name LIKE ? AND events.id = attendees.event_id ORDER BY attendees.id ASC';
+method.eventStatus = function (res, event_id) {
+    var query = 'SELECT event_name, attendee_name, attendee_num, attendee_text FROM events,attendees WHERE events.id LIKE ? AND events.id = attendees.event_id ORDER BY attendees.id ASC';
 
-    this.db.each(query, event_name, function(err, row, output) {
+    this.db.each(query, event_id, function(err, row, output) {
 	    if (this.output == undefined) {
-		this.output = "*List of attendees for " + event_name + " :*\n\n";
+		this.output = "*List of attendees for " + row.event_name + " :*\n\n";
 	    }
 
 	    this.output += '*' + row.attendee_name + '* (*' + row.attendee_num + '*) ' + row.attendee_text + "\n";
@@ -51,7 +51,7 @@ method.eventStatus = function (res, event_name) {
 		this.output += "\n" + 'Total attendees: *' + this.total + '*' + "\n\n";
 		res.send(this.output);
 	    } else {
-		res.send("Event " + event_name + " doesn't exist.");
+		res.send("Event " + event_id + " doesn't exist.");
 	    }
 	});
 }
