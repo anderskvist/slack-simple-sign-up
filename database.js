@@ -74,4 +74,9 @@ method.createEvent = function (res, event_name, event_owner, event_date, event_r
 	});
 }
 
+method.attendEvent = function (res, event_name, event_id, attendee_name, attendee_num, attendee_text) {
+    var now = Math.floor(new Date() / 1000);
+    res.send("Not implemented yet!");
+}
+
 module.exports = Database;
