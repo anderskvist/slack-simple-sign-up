@@ -77,7 +77,7 @@ app.post('/', function(req, res){
 		.option('h', {alias: 'help', describe: 'Show help', type: 'boolean'})
 		.fail(function() {})
 		.usage("Usage: " + req.body.command + ' status --name "id of Event"')
-		.option('n', {alias: 'id', describe: 'Id of the event', demand: true});
+		.option('i', {alias: 'id', describe: 'Id of the event', demand: true});
 
 	    var argv = yargs.parse(args);
 
