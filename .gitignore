@@ -1,3 +1,4 @@
 db/signup.db
 log/debug.log
 secrets.inc.php
+node_modules/
