@@ -13,9 +13,11 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 
-var yargs = require("yargs");
+var y = require("yargs");
 
 app.post('/', function(req, res){
+
+	var yargs = new y;
 
 	var strargv = require("string-argv");
 	var args = strargv.parseArgsStringToArgv(req.body.text);
@@ -161,6 +163,7 @@ app.post('/', function(req, res){
 
 
 	}
+	yargs = null;
 });
 
 app.listen(3000);
