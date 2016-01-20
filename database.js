@@ -51,7 +51,7 @@ method.eventStatus = function (res, event_id) {
 		this.output += "\n" + 'Total attendees: *' + this.total + '*' + "\n\n";
 		res.send(this.output);
 	    } else {
-		res.send("Event " + event_id + " doesn't exist.");
+		res.send("Event " + event_id + " doesn't exist or no attendees.");
 	    }
 	});
 }
