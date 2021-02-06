@@ -159,7 +159,10 @@ app.post('/', function(req, res){
 	} else {
 
 	    /* NOT IMPLEMENTED */
-	    res.send("Not implemented yet\n\n");
+	    output = '```' + yargs.help() + '```';
+	    json = {"response_type": "ephemeral", "mrkdwn": true, 'text': 'Not implemented yet!', 'attachments': [{'text': output, "mrkdwn_in": ["text"]}]};
+	    res.send(json);
+//	    res.send("Not implemented yet\n\n");
 
 
 	}
